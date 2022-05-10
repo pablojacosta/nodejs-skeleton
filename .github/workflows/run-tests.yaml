@@ -1,0 +1,9 @@
+name: Unit and API tests
+on: push
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Run Tests
+              run: docker-compose -f docker-compose.yml -f docker-compose.api-test.yml up --exit-code-from app

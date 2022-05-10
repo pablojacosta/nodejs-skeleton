@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+    app:
+        build: ./
+        ports:
+            - "3000:3000"
+        links:
+            - database
+        volumes:
+            - .:/application
+        depends_on:
+            - database
+        command: bash -c "yarn install && yarn run dev"
+    database:
+        image: mongo
+        ports:
+            - 27018:27017
+        volumes:
+            - .:/application
