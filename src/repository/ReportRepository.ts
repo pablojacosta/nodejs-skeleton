@@ -39,13 +39,11 @@ export class ReportRepository extends MongoRepository implements IReportReposito
         userId ? (filter.userId = userId) : {};
 
         if (dateFrom && dateTo) {
-            filter.createdAt = { $gte: dateFrom, $lte: dateTo };
-            filter.updatedAt = { $gte: dateFrom, $lte: dateTo };
+            filter.createdAt = { $gte: dateFrom };
+            filter.updatedAt = { $lte: dateTo };
         } else if (dateFrom && !dateTo) {
             filter.createdAt = { $gte: dateFrom };
-            filter.updatedAt = { $gte: dateFrom };
         } else if (!dateFrom && dateTo) {
-            filter.createdAt = { $lte: dateTo };
             filter.updatedAt = { $lte: dateTo };
         }
 
