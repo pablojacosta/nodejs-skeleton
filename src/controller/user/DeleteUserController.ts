@@ -5,13 +5,14 @@ import { TYPES } from "../../config/ioc/types";
 import { User } from "../../entity/User";
 import { IUserRepository } from "../../repository/UserRepository";
 import { IRemoveUserService } from "../../service/user/RemoveUserService";
+import { paramIdValidator } from "../../validator/paramIdValidator";
 
 @controller("/users")
 export class DeleteUserController extends BaseHttpController {
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
     @inject(TYPES.RemoveUserService) private readonly removeUserService: IRemoveUserService;
 
-    @httpDelete("/:id")
+    @httpDelete("/:id", TYPES.AuthorizationMiddleware, ...paramIdValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const user: User | null = await this.userRepository.findOneById(request.params.id);
 

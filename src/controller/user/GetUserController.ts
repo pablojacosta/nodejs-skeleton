@@ -4,12 +4,13 @@ import { BaseHttpController, controller, httpGet, request, response } from "inve
 import { TYPES } from "../../config/ioc/types";
 import { User } from "../../entity/User";
 import { IUserRepository } from "../../repository/UserRepository";
+import { paramIdValidator } from "../../validator/paramIdValidator";
 
 @controller("/users")
 export class GetUserController extends BaseHttpController {
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
 
-    @httpGet("/:id")
+    @httpGet("/:id", ...paramIdValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const user: User | null = await this.userRepository.findOneById(request.params.id);
 

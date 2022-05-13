@@ -6,13 +6,14 @@ import { Report } from "../../entity/Report";
 import { User } from "../../entity/User";
 import { IUserRepository } from "../../repository/UserRepository";
 import { ICreateReportDto, ICreateReportService } from "../../service/report/CreateReportService";
+import { postAndPutReportValidator } from "../../validator/report/postAndPutReportValidator";
 
 @controller("/reports")
 export class PostReportController extends BaseHttpController {
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
     @inject(TYPES.CreateReportService) private readonly createReportService: ICreateReportService;
 
-    @httpPost("/")
+    @httpPost("/", TYPES.AuthorizationMiddleware, ...postAndPutReportValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const user: User | null = await this.userRepository.findOneById(request.body.userId);
 

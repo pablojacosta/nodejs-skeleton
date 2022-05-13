@@ -11,6 +11,9 @@ import "../../controller/report/GetReportController";
 import "../../controller/report/PutReportController";
 import "../../controller/report/DeleteReportController";
 
+// middleware
+import "../../middleware/AuthorizationMiddleware";
+
 // utils
 import "../../utils/mongodb/ConnectionManager";
 

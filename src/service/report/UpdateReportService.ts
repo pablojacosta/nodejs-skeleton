@@ -31,14 +31,6 @@ export class UpdateReportService implements IUpdateReportService {
             throw new ServiceValidationException(`User with id: ${userId} doesn't exist`);
         }
 
-        if (title === undefined || title === "") {
-            throw new ServiceValidationException("Title is required");
-        }
-
-        if (content === undefined || content === "") {
-            throw new ServiceValidationException("Content is required");
-        }
-
         report.title = title;
         report.content = content;
         report.updatedAt = (Date.now() / 1000) | 0;

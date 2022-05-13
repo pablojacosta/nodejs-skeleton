@@ -13,4 +13,7 @@ export const TYPES = {
     CreateReportService: Symbol.for("CreateReportService"),
     UpdateReportService: Symbol.for("UpdateReportService"),
     RemoveReportService: Symbol.for("RemoveReportService"),
+
+    // middleware
+    AuthorizationMiddleware: Symbol.for("AuthorizationMiddleware"),
 };

@@ -5,13 +5,15 @@ import { TYPES } from "../../config/ioc/types";
 import { User } from "../../entity/User";
 import { IUserRepository } from "../../repository/UserRepository";
 import { IUpdateUserDto, IUpdateUserService } from "../../service/user/UpdateUserService";
+import { paramIdValidator } from "../../validator/paramIdValidator";
+import { putUserValidator } from "../../validator/user/putUserValidator";
 
 @controller("/users")
 export class PutUserController extends BaseHttpController {
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
     @inject(TYPES.UpdateUserService) private readonly updateUserService: IUpdateUserService;
 
-    @httpPut("/:id")
+    @httpPut("/:id", TYPES.AuthorizationMiddleware, ...paramIdValidator, ...putUserValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const user: User | null = await this.userRepository.findOneById(request.params.id);
 

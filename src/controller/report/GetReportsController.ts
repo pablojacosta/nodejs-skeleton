@@ -6,6 +6,7 @@ import { Report } from "../../entity/Report";
 import { User } from "../../entity/User";
 import { IReportRepository } from "../../repository/ReportRepository";
 import { IUserRepository } from "../../repository/UserRepository";
+import { getReportsValidator } from "../../validator/report/getReportsValidator";
 
 const defaultOffset = 0;
 const defaultLimit = 20;
@@ -15,7 +16,7 @@ export class GetReportsController extends BaseHttpController {
     @inject(TYPES.UserRepository) private readonly userRepository: IUserRepository;
     @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
 
-    @httpGet("/")
+    @httpGet("/", ...getReportsValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         if (request.query.userId) {
             const user: User | null = await this.userRepository.findOneById(request.query.userId.toString());

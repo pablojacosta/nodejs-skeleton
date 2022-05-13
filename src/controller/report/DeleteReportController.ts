@@ -5,13 +5,14 @@ import { TYPES } from "../../config/ioc/types";
 import { Report } from "../../entity/Report";
 import { IReportRepository } from "../../repository/ReportRepository";
 import { IRemoveReportService } from "../../service/report/RemoveReportService";
+import { paramIdValidator } from "../../validator/paramIdValidator";
 
 @controller("/reports")
 export class DeleteReportController extends BaseHttpController {
     @inject(TYPES.ReportRepository) private readonly reportRepository: IReportRepository;
     @inject(TYPES.RemoveReportService) private readonly removeReportService: IRemoveReportService;
 
-    @httpDelete("/:id")
+    @httpDelete("/:id", TYPES.AuthorizationMiddleware, ...paramIdValidator)
     public async index(@request() request: Request, @response() response: Response): Promise<Response> {
         const report: Report | null = await this.reportRepository.findOneById(request.params.id);
 

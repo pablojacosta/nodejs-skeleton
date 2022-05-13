@@ -3,7 +3,6 @@ import { IUserRepository } from "../../repository/UserRepository";
 import { inject } from "inversify";
 import { TYPES } from "../../config/ioc/types";
 import { provideSingleton } from "../../utils/inversify/CustomProviders";
-import { ServiceValidationException } from "../../exception/ServiceValidationException";
 
 export interface IUpdateUserDto {
     name: string;
@@ -24,10 +23,6 @@ export class UpdateUserService implements IUpdateUserService {
     }
 
     public async update(user: User, { name, age, country }: IUpdateUserDto): Promise<User> {
-        if (age < 12) {
-            throw new ServiceValidationException("Invalid age, users need to be older than 12 years old.");
-        }
-
         user.name = name;
         user.age = age;
         user.country = country;
